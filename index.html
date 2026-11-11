@@ -1,0 +1,2127 @@
+<!doctype html>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Học cùng Huy Lee - Binary Search Academy Pro</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#f0f4ff",
+                100: "#e0e8ff",
+                500: "#6366f1",
+                600: "#4f46e5",
+                700: "#4338ca",
+              },
+              accent: {
+                orange: "#ff6b4a",
+                purple: "#9333ea",
+                teal: "#14b8a6",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              mono: ["Fira Code", "Consolas", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+      }
+
+      /* Glassmorphism Styles */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+
+      .dark .glass-card {
+        background: rgba(17, 24, 39, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      /* Gradient Text */
+      .gradient-text {
+        background: linear-gradient(135deg, #ff6b4a 0%, #9333ea 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #a855f7 50%,
+          #ec4899 100%
+        );
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #a5b4fc;
+        border-radius: 4px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #374151;
+      }
+
+      /* Array Element Animations */
+      .array-item {
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white"
+  >
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-card transition-all duration-300">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
+      >
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div
+            class="w-11 h-11 rounded-2xl gradient-bg flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform"
+          >
+            HL
+          </div>
+          <div>
+            <span
+              class="text-xs font-semibold tracking-wider text-brand-600 dark:text-brand-400 uppercase block"
+              >Binary Search Academy</span
+            >
+            <span class="text-xl font-extrabold gradient-text"
+              >Học cùng Huy Lee</span
+            >
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav
+          class="hidden md:flex items-center gap-1 font-medium text-sm text-slate-600 dark:text-slate-300"
+        >
+          <a
+            href="#lessons"
+            class="px-3.5 py-2 rounded-xl hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <i class="fa-solid fa-book-open mr-1.5 opacity-70"></i>Bài học
+          </a>
+          <a
+            href="#simulation"
+            class="px-3.5 py-2 rounded-xl hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <i class="fa-solid fa-gamepad mr-1.5 opacity-70"></i>Mô phỏng
+          </a>
+          <a
+            href="#bs-on-answer"
+            class="px-3.5 py-2 rounded-xl hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <i class="fa-solid fa-rocket mr-1.5 opacity-70"></i>BS on Answer
+          </a>
+          <a
+            href="#practice-problems"
+            class="px-3.5 py-2 rounded-xl hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <i class="fa-solid fa-code mr-1.5 opacity-70"></i>Bài tập thực hành
+          </a>
+          <a
+            href="#quiz"
+            class="px-3.5 py-2 rounded-xl hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            <i class="fa-solid fa-brain mr-1.5 opacity-70"></i>Trắc nghiệm
+          </a>
+        </nav>
+
+        <!-- Actions: Dark mode & Mobile Menu Toggle -->
+        <div class="flex items-center gap-3">
+          <button
+            id="themeToggle"
+            class="w-10 h-10 rounded-xl bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:ring-2 hover:ring-brand-500 transition-all"
+            title="Đổi giao diện"
+          >
+            <i class="fa-solid fa-moon dark:hidden"></i>
+            <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+          </button>
+
+          <button
+            id="mobileMenuBtn"
+            class="md:hidden w-10 h-10 rounded-xl bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200"
+          >
+            <i class="fa-solid fa-bars text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Menu -->
+      <div
+        id="mobileMenu"
+        class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 px-4 py-3 space-y-2 bg-white/95 dark:bg-slate-900/95"
+      >
+        <a
+          href="#lessons"
+          class="block px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+          >📖 Bài học lý thuyết</a
+        >
+        <a
+          href="#simulation"
+          class="block px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+          >🎮 Mô phỏng tương tác</a
+        >
+        <a
+          href="#bs-on-answer"
+          class="block px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+          >🚀 Lý thuyết BS on Answer</a
+        >
+        <a
+          href="#practice-problems"
+          class="block px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+          >📝 Bài tập thực hành (Mới)</a
+        >
+        <a
+          href="#quiz"
+          class="block px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
+          >🧠 Luyện tập & Quiz</a
+        >
+      </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main
+      class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12"
+    >
+      <!-- HERO SECTION -->
+      <section
+        class="relative overflow-hidden rounded-3xl gradient-bg p-8 sm:p-12 text-white shadow-2xl shadow-indigo-500/20"
+      >
+        <div
+          class="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"
+        ></div>
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold tracking-wide"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
+            ></span>
+            Phiên bản PRO 2026
+          </div>
+          <h1
+            class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight"
+          >
+            Làm chủ Tìm Kiếm Nhị Phân cùng Huy Lee 🔍
+          </h1>
+          <p
+            class="text-base sm:text-lg text-indigo-100 font-normal leading-relaxed"
+          >
+            Hệ thống học Cấu trúc dữ liệu & Thuật toán trực quan hóa hàng đầu.
+            Đi từ nguyên lý nền tảng O(log N) đến kỹ thuật nâng cao Binary
+            Search on Answer & thư viện C++ STL.
+          </p>
+          <div class="pt-4 flex flex-wrap gap-4">
+            <a
+              href="#simulation"
+              class="px-6 py-3 rounded-2xl bg-white text-brand-700 font-bold hover:bg-opacity-95 shadow-lg shadow-black/10 hover:-translate-y-0.5 transition-all"
+            >
+              <i class="fa-solid fa-play mr-2"></i>Trải nghiệm Mô Phỏng
+            </a>
+            <a
+              href="#quiz"
+              class="px-6 py-3 rounded-2xl bg-indigo-900/40 backdrop-blur-md border border-white/20 text-white font-semibold hover:bg-indigo-900/60 transition-all"
+            >
+              <i class="fa-solid fa-trophy mr-2"></i>Thử thách Quiz
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- DASHBOARD & STATS SECTION -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Stat 1 -->
+        <div
+          class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-slate-200/50 dark:border-slate-800"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-indigo-500/10 dark:bg-indigo-400/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl"
+          >
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+              >Chủ đề bài học</span
+            >
+            <h3 class="text-xl sm:text-2xl font-bold">7 Phần</h3>
+          </div>
+        </div>
+        <!-- Stat 2 -->
+        <div
+          class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-slate-200/50 dark:border-slate-800"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-amber-500/10 dark:bg-amber-400/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl"
+          >
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+              >Bài tập thực hành</span
+            >
+            <h3 class="text-xl sm:text-2xl font-bold">4 Đề bài</h3>
+          </div>
+        </div>
+        <!-- Stat 2 -->
+        <div
+          class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-slate-200/50 dark:border-slate-800"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-amber-500/10 dark:bg-amber-400/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl"
+          >
+            <i class="fa-solid fa-fire"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+              >Chuỗi ngày học</span
+            >
+            <h3 class="text-xl sm:text-2xl font-bold">3 Ngày</h3>
+          </div>
+        </div>
+        <!-- Stat 3 -->
+        <div
+          class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-slate-200/50 dark:border-slate-800"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-emerald-500/10 dark:bg-emerald-400/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl"
+          >
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+              >Số câu đúng</span
+            >
+            <h3 id="statCorrect" class="text-xl sm:text-2xl font-bold">
+              0 / 10
+            </h3>
+          </div>
+        </div>
+        <!-- Stat 4 -->
+        <div
+          class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-slate-200/50 dark:border-slate-800"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-purple-500/10 dark:bg-purple-400/20 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl"
+          >
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium"
+              >Điểm tích lũy</span
+            >
+            <h3 id="statScore" class="text-xl sm:text-2xl font-bold">0 XP</h3>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEARCH / FILTER LESSONS HEADER -->
+      <div
+        id="lessons"
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-slate-200 dark:border-slate-800"
+      >
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">
+            📚 Chương Trình Học Chuyên Sâu
+          </h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Thiết kế bởi Huy Lee - Cập nhật chuẩn C++23
+          </p>
+        </div>
+        <div class="relative w-full sm:w-64">
+          <i
+            class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"
+          ></i>
+          <input
+            type="text"
+            id="lessonSearch"
+            placeholder="Tìm kiếm nội dung bài học..."
+            class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+          />
+        </div>
+      </div>
+
+      <!-- LESSON 1 -->
+      <article
+        class="lesson-card glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-sm hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider"
+            >Bài 1 • Cơ Bản</span
+          >
+          <span class="text-xs text-slate-400"
+            ><i class="fa-regular fa-clock mr-1"></i>Thời gian đọc: ~5
+            phút</span
+          >
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold">
+          📖 Tổng quan & Nguyên lý Binary Search
+        </h3>
+
+        <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+          <strong>Tìm kiếm nhị phân (Binary Search)</strong> là thuật toán tối
+          ưu hóa vượt bậc so với tìm kiếm tuyến tính (O(N)). Thay vì duyệt từng
+          phần tử từ đầu đến cuối, thuật toán liên tục chia đôi khoảng tìm kiếm
+          dựa trên tính chất đã sắp xếp của mảng.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+          <div
+            class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800"
+          >
+            <h4
+              class="font-semibold text-brand-600 dark:text-brand-400 mb-2 flex items-center gap-2"
+            >
+              <i class="fa-solid fa-check-circle"></i> Điều kiện tiên quyết:
+            </h4>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Dữ liệu đầu vào <strong>BẮT BUỘC phải được sắp xếp</strong> (tăng
+              dần hoặc giảm dần) hoặc có tính chất đơn điệu (Monotonicity).
+            </p>
+          </div>
+
+          <div
+            class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800"
+          >
+            <h4
+              class="font-semibold text-emerald-600 dark:text-emerald-400 mb-2 flex items-center gap-2"
+            >
+              <i class="fa-solid fa-bolt"></i> Độ phức tạp:
+            </h4>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Thời gian: <strong>O(log₂ N)</strong>. Ví dụ: Với 1.000.000 phần
+              tử, tối đa chỉ cần khoảng <strong>20 phép so sánh</strong>!
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 space-y-2"
+        >
+          <h5
+            class="font-bold text-indigo-900 dark:text-indigo-200 text-sm uppercase"
+          >
+            Quy trình 4 bước thực hiện:
+          </h5>
+          <ol
+            class="list-decimal list-inside text-sm text-slate-700 dark:text-slate-300 space-y-1"
+          >
+            <li>
+              Khởi tạo biến chỉ số con trỏ trái
+              <code
+                class="font-mono bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border"
+                >left = 0</code
+              >
+              và con trỏ phải
+              <code
+                class="font-mono bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border"
+                >right = N - 1</code
+              >.
+            </li>
+            <li>
+              Tính vị trí chính giữa
+              <code
+                class="font-mono bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border"
+                >mid = left + (right - left) / 2</code
+              >.
+            </li>
+            <li>
+              So sánh giá trị tại
+              <code
+                class="font-mono bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border"
+                >A[mid]</code
+              >
+              với giá trị cần tìm
+              <code
+                class="font-mono bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border"
+                >X</code
+              >:
+              <ul
+                class="list-disc list-inside ml-6 mt-1 text-xs space-y-0.5 text-slate-600 dark:text-slate-400"
+              >
+                <li>
+                  Nếu <code class="font-mono">A[mid] == X</code>: Tìm thấy ->
+                  Trả về vị trí <code class="font-mono">mid</code>.
+                </li>
+                <li>
+                  Nếu <code class="font-mono">A[mid] < X</code>: Bỏ nửa trái ->
+                  Cập nhật <code class="font-mono">left = mid + 1</code>.
+                </li>
+                <li>
+                  Nếu <code class="font-mono">A[mid] > X</code>: Bỏ nửa phải ->
+                  Cập nhật <code class="font-mono">right = mid - 1</code>.
+                </li>
+              </ul>
+            </li>
+            <li>
+              Lặp lại cho đến khi
+              <code class="font-mono">left > right</code> (không tìm thấy).
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- LESSON 2 -->
+      <article
+        class="lesson-card glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-sm hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider"
+            >Bài 2 • Code C++ Chuẩn</span
+          >
+          <span class="text-xs text-slate-400"
+            ><i class="fa-regular fa-clock mr-1"></i>Thời gian đọc: ~7
+            phút</span
+          >
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold">
+          💻 Cài Đặt C++ Chi Tiết (Cơ Bản & Biến Thể)
+        </h3>
+        <p class="text-slate-600 dark:text-slate-300 text-sm">
+          Dưới đây là mã nguồn C++ chuẩn hóa bao gồm thuật toán tìm kiếm chính
+          xác và bài toán tìm vị trí xuất hiện đầu tiên/cuối cùng trong mảng có
+          trùng lặp.
+        </p>
+
+        <div
+          class="rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl"
+        >
+          <div
+            class="bg-slate-800/80 px-4 py-2.5 flex items-center justify-between text-xs text-slate-400 border-b border-slate-700"
+          >
+            <span class="font-mono flex items-center gap-2"
+              ><i class="fa-regular fa-file-code text-indigo-400"></i>
+              binary_search_standard.cpp</span
+            >
+            <button
+              onclick="copyCode(this)"
+              class="hover:text-white transition-colors flex items-center gap-1"
+            >
+              <i class="fa-regular fa-copy"></i> Sao chép
+            </button>
+          </div>
+          <pre
+            class="p-4 text-xs sm:text-sm font-mono text-slate-200 overflow-x-auto leading-relaxed"
+          ><code><span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;iostream&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;vector&gt;</span>
+<span class="text-purple-400">using namespace</span> std;
+
+<span class="text-slate-500">// 1. Tìm kiếm chính xác vị trí của X (Trả về -1 nếu không có)</span>
+<span class="text-blue-400">int</span> <span class="text-amber-300">binarySearch</span>(<span class="text-purple-400">const</span> vector&lt;<span class="text-blue-400">int</span>&gt;&amp; a, <span class="text-blue-400">int</span> x) {
+    <span class="text-blue-400">int</span> l = <span class="text-orange-400">0</span>, r = a.<span class="text-amber-300">size</span>() - <span class="text-orange-400">1</span>;
+    <span class="text-purple-400">while</span> (l &lt;= r) {
+        <span class="text-blue-400">int</span> mid = l + (r - l) / <span class="text-orange-400">2</span>; <span class="text-slate-500">// Tránh tràn số int khi l, r lớn</span>
+        <span class="text-purple-400">if</span> (a[mid] == x) <span class="text-purple-400">return</span> mid;
+        <span class="text-purple-400">if</span> (a[mid] &lt; x) l = mid + <span class="text-orange-400">1</span>;
+        <span class="text-purple-400">else</span> r = mid - <span class="text-orange-400">1</span>;
+    }
+    <span class="text-purple-400">return</span> -<span class="text-orange-400">1</span>;
+}
+
+<span class="text-slate-500">// 2. Tìm vị trí ĐẦU TIÊN của phần tử &gt;= X (Tương tự lower_bound)</span>
+<span class="text-blue-400">int</span> <span class="text-amber-300">findFirstGreaterOrEqual</span>(<span class="text-purple-400">const</span> vector&lt;<span class="text-blue-400">int</span>&gt;&amp; a, <span class="text-blue-400">int</span> x) {
+    <span class="text-blue-400">int</span> l = <span class="text-orange-400">0</span>, r = a.<span class="text-amber-300">size</span>() - <span class="text-orange-400">1</span>, res = -<span class="text-orange-400">1</span>;
+    <span class="text-purple-400">while</span> (l &lt;= r) {
+        <span class="text-blue-400">int</span> mid = l + (r - l) / <span class="text-orange-400">2</span>;
+        <span class="text-purple-400">if</span> (a[mid] &gt;= x) {
+            res = mid;     <span class="text-slate-500">// Ghi nhận nghiệm tiềm năng</span>
+            r = mid - <span class="text-orange-400">1</span>;   <span class="text-slate-500">// Tiếp tục tìm bên trái xem còn không</span>
+        } <span class="text-purple-400">else</span> {
+            l = mid + <span class="text-orange-400">1</span>;
+        }
+    }
+    <span class="text-purple-400">return</span> res;
+}</code></pre>
+        </div>
+      </article>
+
+      <!-- LESSON 3: INTERACTIVE SIMULATION -->
+      <article
+        id="simulation"
+        class="lesson-card glass-card rounded-3xl p-6 sm:p-8 space-y-6 shadow-md border-2 border-brand-500/20"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider"
+            >Bài 3 • Trực Quan Hóa</span
+          >
+          <span class="text-xs text-slate-400"
+            ><i class="fa-solid fa-gamepad mr-1"></i>Công cụ tương tác</span
+          >
+        </div>
+
+        <div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            🎮 Mô Phỏng Tương Tác Binary Search
+          </h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Tự nhập mảng và số cần tìm để quan sát từng bước thu hẹp khoảng tìm
+            kiếm.
+          </p>
+        </div>
+
+        <!-- Controls Panel -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-100 dark:bg-slate-900/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-800"
+        >
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-600 dark:text-slate-400"
+              >Mảng dữ liệu (đã tự động sắp xếp):</label
+            >
+            <input
+              type="text"
+              id="simArrayInput"
+              value="2, 5, 8, 12, 16, 23, 38, 56, 72, 91"
+              class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-600 dark:text-slate-400"
+              >Giá trị cần tìm (X):</label
+            >
+            <input
+              type="number"
+              id="simTargetInput"
+              value="23"
+              class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-600 dark:text-slate-400"
+              >Tốc độ tự động (Auto Speed):</label
+            >
+            <select
+              id="simSpeedSelect"
+              class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            >
+              <option value="1500">Chậm (1.5s)</option>
+              <option value="900" selected>Bình thường (0.9s)</option>
+              <option value="400">Nhanh (0.4s)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap items-center gap-3">
+          <button
+            onclick="initSim()"
+            class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md transition-all flex items-center gap-2"
+          >
+            <i class="fa-solid fa-rotate-right"></i> Thiết lập / Đặt lại
+          </button>
+          <button
+            onclick="nextSimStep()"
+            class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-sm shadow-md transition-all flex items-center gap-2"
+          >
+            <i class="fa-solid fa-forward-step"></i> Bước tiếp theo
+          </button>
+          <button
+            id="simAutoBtn"
+            onclick="toggleSimAuto()"
+            class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-all flex items-center gap-2"
+          >
+            <i class="fa-solid fa-play"></i> Tự động chạy (Auto)
+          </button>
+        </div>
+
+        <!-- Visualization Canvas Box -->
+        <div
+          class="p-6 rounded-2xl bg-slate-900 border border-slate-800 min-h-[220px] flex flex-col justify-between space-y-6"
+        >
+          <!-- Array Items Container -->
+          <div
+            id="simArrayVisual"
+            class="flex flex-wrap items-center justify-center gap-3 min-h-[90px] pt-4"
+          >
+            <!-- Dynamic Items rendered here -->
+          </div>
+
+          <!-- Simulation Status Banner -->
+          <div
+            id="simStatusBox"
+            class="p-4 rounded-xl bg-slate-800/90 border border-slate-700 text-slate-200 text-xs sm:text-sm font-mono leading-relaxed"
+          >
+            Sẵn sàng! Nhấn "Bước tiếp theo" hoặc "Tự động chạy" để bắt đầu mô
+            phỏng.
+          </div>
+        </div>
+
+        <!-- Legends -->
+        <div
+          class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600 dark:text-slate-400 font-medium"
+        >
+          <span class="flex items-center gap-2"
+            ><span class="w-3.5 h-3.5 rounded bg-blue-500"></span> Con trỏ Left
+            (Trái)</span
+          >
+          <span class="flex items-center gap-2"
+            ><span class="w-3.5 h-3.5 rounded bg-amber-500"></span> Con trỏ Mid
+            (Giữa)</span
+          >
+          <span class="flex items-center gap-2"
+            ><span class="w-3.5 h-3.5 rounded bg-purple-500"></span> Con trỏ
+            Right (Phải)</span
+          >
+          <span class="flex items-center gap-2"
+            ><span class="w-3.5 h-3.5 rounded bg-emerald-500"></span> Tìm thấy
+            thành công</span
+          >
+          <span class="flex items-center gap-2"
+            ><span class="w-3.5 h-3.5 rounded bg-slate-700"></span> Vùng đã loại
+            bỏ</span
+          >
+        </div>
+      </article>
+
+      <!-- LESSON 4 -->
+      <article
+        id="bs-on-answer"
+        class="lesson-card glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-sm hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wider"
+            >Bài 4 • Kỹ Thuật Nâng Cao</span
+          >
+          <span class="text-xs text-slate-400"
+            ><i class="fa-regular fa-clock mr-1"></i>Thời gian đọc: ~8
+            phút</span
+          >
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold">
+          🚀 Binary Search Trên Tập Kết Quả (Search on Answer)
+        </h3>
+
+        <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm">
+          Đây là dạng bài thuật toán xuất hiện cực kỳ phổ biến trong các kỳ thi
+          Học sinh giỏi và Phỏng vấn Coding. Thay vì tìm một phần tử có sẵn
+          trong mảng, ta ứng dụng Binary Search để
+          <strong>tìm giá trị tối ưu (nhỏ nhất hoặc lớn nhất)</strong> thỏa mãn
+          một điều kiện kiểm tra
+          <code
+            class="font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded"
+            >check(mid)</code
+          >.
+        </p>
+
+        <div
+          class="p-4 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-2"
+        >
+          <h4 class="font-bold text-sm text-brand-600 dark:text-brand-400">
+            💡 Mô hình tổng quát của BS on Answer:
+          </h4>
+          <ol
+            class="list-decimal list-inside text-xs sm:text-sm text-slate-600 dark:text-slate-300 space-y-1"
+          >
+            <li>
+              <strong>Xác định khoảng nghiệm [L, R]:</strong> Xác định giá trị
+              nhỏ nhất có thể (<code class="font-mono">L</code>) và lớn nhất có
+              thể (<code class="font-mono">R</code>) của đáp án.
+            </li>
+            <li>
+              <strong
+                >Viết hàm kiểm tra
+                <code class="font-mono">check(mid)</code>:</strong
+              >
+              Kiểm tra xem với giá trị đáp án là
+              <code class="font-mono">mid</code> thì có thỏa mãn yêu cầu đề bài
+              hay không (thường chạy trong O(N)).
+            </li>
+            <li>
+              <strong>Thu hẹp khoảng nghiệm:</strong>
+              <ul
+                class="list-disc list-inside ml-6 text-xs text-slate-500 dark:text-slate-400"
+              >
+                <li>
+                  Bài toán tìm MAX: Nếu
+                  <code class="font-mono">check(mid) == true</code>, lưu
+                  <code class="font-mono">ans = mid</code> và tăng
+                  <code class="font-mono">L = mid + 1</code>.
+                </li>
+                <li>
+                  Bài toán tìm MIN: Nếu
+                  <code class="font-mono">check(mid) == true</code>, lưu
+                  <code class="font-mono">ans = mid</code> và giảm
+                  <code class="font-mono">R = mid - 1</code>.
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- LESSON 5: PRACTICE PROBLEMS (BINARY SEARCH ON ANSWER) -->
+      <article
+        id="practice-problems"
+        class="lesson-card glass-card rounded-3xl p-6 sm:p-8 space-y-8 shadow-lg border-2 border-brand-500/30"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-wider"
+            >Bài 5 • Thực Hành Bài Tập Chuyên Sâu</span
+          >
+          <span class="text-xs text-slate-400"
+            ><i class="fa-solid fa-code mr-1"></i>4 Đề Bài Kinh Điển</span
+          >
+        </div>
+
+        <div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            📝 Bộ Bài Tập Thực Hành: Binary Search On Answer
+          </h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Phân tích đề bài, Input/Output chuẩn, giải thích từng bước test ví
+            dụ và mã nguồn C++ tối ưu.
+          </p>
+        </div>
+
+        <!-- PROBLEM 1: EKO - WOODCUTTER -->
+        <div
+          class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
+        >
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h4 class="text-lg font-bold text-brand-600 dark:text-brand-400">
+              🌲 Bài toán 1: Chặt cây lấy gỗ (EKO / Woodcutter)
+            </h4>
+            <span
+              class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold"
+              >Độ khó: Medium</span
+            >
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Huy Lee cần thu hoạch ít nhất <strong>M</strong> mét gỗ. Huy Lee có
+            <strong>N</strong> cái cây với chiều cao tương ứng. Huy Lee sử dụng
+            máy chặt cây đặt ở chiều cao <strong>H</strong>. Tất cả các phần cây
+            có chiều cao lớn hơn <strong>H</strong> sẽ bị cắt đuôi và thu hoạch.
+            Tìm chiều cao thiết lập <strong>H lớn nhất</strong> sao cho tổng số
+            gỗ thu được ít nhất là <strong>M</strong>.
+          </p>
+
+          <div
+            class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono"
+          >
+            <strong>Ràng buộc (Constraints):</strong> 1 ≤ N ≤ 1,000,000 | 1 ≤ M
+            ≤ 2×10⁹ | Chiều cao mỗi cây ≤ 1,000,000,000.
+          </div>
+
+          <!-- Input / Output Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Input mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+4 7
+20 15 10 17</pre
+              >
+            </div>
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Output mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-amber-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+15</pre
+              >
+            </div>
+          </div>
+
+          <!-- Step-by-Step Explanation -->
+          <div
+            class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 space-y-2 text-xs sm:text-sm"
+          >
+            <h5
+              class="font-bold text-indigo-900 dark:text-indigo-200 uppercase flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-lightbulb text-amber-500"></i> Giải thích
+              chi tiết Test ví dụ:
+            </h5>
+            <p class="text-slate-600 dark:text-slate-300">
+              N = 4 cây có chiều cao lần lượt là [20, 15, 10, 17], cần thu hoạch
+              M = 7 mét gỗ.
+            </p>
+            <ul
+              class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1 ml-2"
+            >
+              <li>
+                Nếu đặt H = 15: Cây 1 (20m) bị cắt lấy (20 - 15) = 5m. Cây 4
+                (17m) bị cắt lấy (17 - 15) = 2m. Tổng gỗ = 5 + 2 = 7m (Đủ điều
+                kiện M = 7).
+              </li>
+              <li>
+                Nếu nâng H = 16: Cây 1 lấy (20 - 16) = 4m. Cây 4 lấy (17 - 16) =
+                1m. Tổng gỗ = 4 + 1 = 5m < 7m (Thiếu gỗ!).
+              </li>
+              <li>
+                Vậy chiều cao đặt máy H lớn nhất hợp lệ là <strong>15</strong>.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Solution Code -->
+          <div
+            class="rounded-xl overflow-hidden bg-slate-900 border border-slate-800"
+          >
+            <div
+              class="bg-slate-800/80 px-4 py-2 flex items-center justify-between text-xs text-slate-400"
+            >
+              <span class="font-mono"
+                ><i class="fa-regular fa-file-code text-indigo-400"></i>
+                eko_woodcutter.cpp</span
+              >
+              <button
+                onclick="copyCode(this)"
+                class="hover:text-white transition-colors flex items-center gap-1"
+              >
+                <i class="fa-regular fa-copy"></i> Sao chép
+              </button>
+            </div>
+            <pre
+              class="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed"
+            ><code><span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;iostream&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;vector&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;algorithm&gt;</span>
+<span class="text-purple-400">using namespace</span> std;
+
+<span class="text-blue-400">bool</span> <span class="text-amber-300">check</span>(<span class="text-purple-400">const</span> vector&lt;<span class="text-blue-400">long long</span>&gt;&amp; trees, <span class="text-blue-400">long long</span> M, <span class="text-blue-400">long long</span> H) {
+    <span class="text-blue-400">long long</span> wood = <span class="text-orange-400">0</span>;
+    <span class="text-purple-400">for</span> (<span class="text-blue-400">long long</span> h : trees) {
+        <span class="text-purple-400">if</span> (h &gt; H) wood += (h - H);
+    }
+    <span class="text-purple-400">return</span> wood &gt;= M;
+}
+
+<span class="text-blue-400">int</span> <span class="text-amber-300">main</span>() {
+    <span class="text-blue-400">int</span> N; <span class="text-blue-400">long long</span> M;
+    cin &gt;&gt; N &gt;&gt; M;
+    vector&lt;<span class="text-blue-400">long long</span>&gt; trees(N);
+    <span class="text-blue-400">long long</span> maxH = <span class="text-orange-400">0</span>;
+    <span class="text-purple-400">for</span> (<span class="text-blue-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; N; ++i) {
+        cin &gt;&gt; trees[i];
+        maxH = max(maxH, trees[i]);
+    }
+
+    <span class="text-blue-400">long long</span> l = <span class="text-orange-400">0</span>, r = maxH, ans = <span class="text-orange-400">0</span>;
+    <span class="text-purple-400">while</span> (l &lt;= r) {
+        <span class="text-blue-400">long long</span> mid = l + (r - l) / <span class="text-orange-400">2</span>;
+        <span class="text-purple-400">if</span> (check(trees, M, mid)) {
+            ans = mid;     <span class="text-slate-500">// Thỏa mãn -> Lưu đáp án, thử tăng H thêm</span>
+            l = mid + <span class="text-orange-400">1</span>;
+        } <span class="text-purple-400">else</span> {
+            r = mid - <span class="text-orange-400">1</span>;   <span class="text-slate-500">// Không đủ gỗ -> Phải hạ H xuống</span>
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+    <span class="text-purple-400">return</span> <span class="text-orange-400">0</span>;
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- PROBLEM 2: AGGRESSIVE COWS / SOCIAL DISTANCING -->
+        <div
+          class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
+        >
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h4 class="text-lg font-bold text-brand-600 dark:text-brand-400">
+              🐄 Bài toán 2: Đặt bò hung dữ / Khoảng cách lớn nhất (Aggressive
+              Cows)
+            </h4>
+            <span
+              class="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold"
+              >Độ khó: Hard</span
+            >
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Có <strong>N</strong> chuồng bò đặt tại các vị trí tọa độ
+            <code class="font-mono">x₁, x₂, ..., xₙ</code> trên một đường thẳng.
+            Bạn có <strong>C</strong> con bò cần xếp vào các chuồng sao cho
+            khoảng cách nhỏ nhất giữa bất kỳ hai con bò nào là
+            <strong>lớn nhất có thể</strong>. Hãy tìm khoảng cách nhỏ nhất lớn
+            nhất đó.
+          </p>
+
+          <div
+            class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono"
+          >
+            <strong>Ràng buộc:</strong> 2 ≤ N ≤ 100,000 | 2 ≤ C ≤ N | 0 ≤ xᵢ ≤
+            10⁹.
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Input mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+5 3
+1 2 8 4 9</pre
+              >
+            </div>
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Output mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-amber-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+3</pre
+              >
+            </div>
+          </div>
+
+          <div
+            class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 space-y-2 text-xs sm:text-sm"
+          >
+            <h5
+              class="font-bold text-indigo-900 dark:text-indigo-200 uppercase flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-lightbulb text-amber-500"></i> Giải thích
+              chi tiết Test ví dụ:
+            </h5>
+            <p class="text-slate-600 dark:text-slate-300">
+              Sắp xếp các chuồng theo tọa độ: [1, 2, 4, 8, 9]. Cần đặt C = 3 con
+              bò.
+            </p>
+            <ul
+              class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1 ml-2"
+            >
+              <li>
+                Thử khoảng cách tối thiểu D = 3: <br />&nbsp;&nbsp;• Bò 1 đặt ở
+                chuồng 1. <br />&nbsp;&nbsp;• Bò 2 phải đặt ở vị trí ≥ 1 + 3 = 4
+                -> Chọn chuồng 4. <br />&nbsp;&nbsp;• Bò 3 phải đặt ở vị trí ≥ 4
+                + 3 = 7 -> Chọn chuồng 8. <br />&nbsp;&nbsp;-> Đặt đủ 3 con bò
+                thành công với khoảng cách giữa chúng lần lượt là (4-1)=3 và
+                (8-4)=4 (đều ≥ 3).
+              </li>
+              <li>
+                Thử khoảng cách D = 4: Bò 1 (trí 1) -> Bò 2 (trí 8) -> Bò 3 (trí
+                9: khoảng cách 9-8=1 < 4 ❌ Không đặt được).
+              </li>
+              <li>Đáp án lớn nhất hợp lệ là <strong>3</strong>.</li>
+            </ul>
+          </div>
+
+          <div
+            class="rounded-xl overflow-hidden bg-slate-900 border border-slate-800"
+          >
+            <div
+              class="bg-slate-800/80 px-4 py-2 flex items-center justify-between text-xs text-slate-400"
+            >
+              <span class="font-mono"
+                ><i class="fa-regular fa-file-code text-indigo-400"></i>
+                aggressive_cows.cpp</span
+              >
+              <button
+                onclick="copyCode(this)"
+                class="hover:text-white transition-colors flex items-center gap-1"
+              >
+                <i class="fa-regular fa-copy"></i> Sao chép
+              </button>
+            </div>
+            <pre
+              class="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed"
+            ><code><span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;iostream&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;vector&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;algorithm&gt;</span>
+<span class="text-purple-400">using namespace</span> std;
+
+<span class="text-blue-400">bool</span> <span class="text-amber-300">canPlaceCows</span>(<span class="text-purple-400">const</span> vector&lt;<span class="text-blue-400">int</span>&gt;&amp; stalls, <span class="text-blue-400">int</span> C, <span class="text-blue-400">int</span> minDist) {
+    <span class="text-blue-400">int</span> count = <span class="text-orange-400">1</span>;
+    <span class="text-blue-400">int</span> lastPos = stalls[<span class="text-orange-400">0</span>];
+    <span class="text-purple-400">for</span> (<span class="text-blue-400">size_t</span> i = <span class="text-orange-400">1</span>; i &lt; stalls.size(); ++i) {
+        <span class="text-purple-400">if</span> (stalls[i] - lastPos &gt;= minDist) {
+            count++;
+            lastPos = stalls[i];
+            <span class="text-purple-400">if</span> (count == C) <span class="text-purple-400">return true</span>;
+        }
+    }
+    <span class="text-purple-400">return false</span>;
+}
+
+<span class="text-blue-400">int</span> <span class="text-amber-300">main</span>() {
+    <span class="text-blue-400">int</span> N, C;
+    cin &gt;&gt; N &gt;&gt; C;
+    vector&lt;<span class="text-blue-400">int</span>&gt; stalls(N);
+    <span class="text-purple-400">for</span> (<span class="text-blue-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; N; ++i) cin &gt;&gt; stalls[i];
+    
+    sort(stalls.begin(), stalls.end());
+
+    <span class="text-blue-400">int</span> l = <span class="text-orange-400">1</span>, r = stalls[N - <span class="text-orange-400">1</span>] - stalls[<span class="text-orange-400">0</span>], ans = <span class="text-orange-400">1</span>;
+    <span class="text-purple-400">while</span> (l &lt;= r) {
+        <span class="text-blue-400">int</span> mid = l + (r - l) / <span class="text-orange-400">2</span>;
+        <span class="text-purple-400">if</span> (canPlaceCows(stalls, C, mid)) {
+            ans = mid;
+            l = mid + <span class="text-orange-400">1</span>; <span class="text-slate-500">// Tìm khoảng cách rộng hơn nữa</span>
+        } <span class="text-purple-400">else</span> {
+            r = mid - <span class="text-orange-400">1</span>;
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+    <span class="text-purple-400">return</span> <span class="text-orange-400">0</span>;
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- PROBLEM 3: SHIP PACKAGES -->
+        <div
+          class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
+        >
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h4 class="text-lg font-bold text-brand-600 dark:text-brand-400">
+              📦 Bài toán 3: Vận chuyển hàng hóa trong D ngày (Capacity To Ship
+              Packages)
+            </h4>
+            <span
+              class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold"
+              >Độ khó: Medium</span
+            >
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Một con tàu cần chở <strong>N</strong> kiện hàng theo thứ tự băng
+            chuyền với trọng lượng cho trước trong đúng/tối đa
+            <strong>D</strong> ngày. Mỗi ngày con tàu chở được tổng trọng lượng
+            không vượt quá tải trọng <strong>Cap</strong>. Tìm
+            <strong>tải trọng nhỏ nhất Cap</strong> để hoàn thành vận chuyển tất
+            cả kiện hàng trong D ngày.
+          </p>
+
+          <div
+            class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono"
+          >
+            <strong>Ràng buộc:</strong> 1 ≤ D ≤ N ≤ 50,000 | Trọng lượng mỗi
+            kiện hàng ≤ 500.
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Input mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+10 5
+1 2 3 4 5 6 7 8 9 10</pre
+              >
+            </div>
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Output mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-amber-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+15</pre
+              >
+            </div>
+          </div>
+
+          <div
+            class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 space-y-2 text-xs sm:text-sm"
+          >
+            <h5
+              class="font-bold text-indigo-900 dark:text-indigo-200 uppercase flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-lightbulb text-amber-500"></i> Giải thích
+              chi tiết Test ví dụ:
+            </h5>
+            <p class="text-slate-600 dark:text-slate-300">
+              Với tải trọng tối thiểu Cap = 15, số chuyến cần đi trong 5 ngày
+              được phân bổ theo thứ tự:
+            </p>
+            <ul
+              class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1 ml-2"
+            >
+              <li>Ngày 1: 1 + 2 + 3 + 4 + 5 = 15 (vừa đủ tải trọng 15).</li>
+              <li>
+                Ngày 2: 6 + 7 = 13 (kiện tiếp theo là 8: 13 + 8 = 21 > 15 ->
+                Chuyển sang ngày 3).
+              </li>
+              <li>Ngày 3: 8</li>
+              <li>Ngày 4: 9</li>
+              <li>Ngày 5: 10</li>
+              <li>
+                Tổng cộng cần 5 ngày để ship xong toàn bộ 10 kiện hàng. Tải
+                trọng nhỏ nhất là <strong>15</strong>.
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="rounded-xl overflow-hidden bg-slate-900 border border-slate-800"
+          >
+            <div
+              class="bg-slate-800/80 px-4 py-2 flex items-center justify-between text-xs text-slate-400"
+            >
+              <span class="font-mono"
+                ><i class="fa-regular fa-file-code text-indigo-400"></i>
+                ship_packages.cpp</span
+              >
+              <button
+                onclick="copyCode(this)"
+                class="hover:text-white transition-colors flex items-center gap-1"
+              >
+                <i class="fa-regular fa-copy"></i> Sao chép
+              </button>
+            </div>
+            <pre
+              class="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed"
+            ><code><span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;iostream&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;vector&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;numeric&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;algorithm&gt;</span>
+<span class="text-purple-400">using namespace</span> std;
+
+<span class="text-blue-400">bool</span> <span class="text-amber-300">checkCapacity</span>(<span class="text-purple-400">const</span> vector&lt;<span class="text-blue-400">int</span>&gt;&amp; weights, <span class="text-blue-400">int</span> D, <span class="text-blue-400">int</span> cap) {
+    <span class="text-blue-400">int</span> daysNeeded = <span class="text-orange-400">1</span>;
+    <span class="text-blue-400">int</span> currentLoad = <span class="text-orange-400">0</span>;
+    <span class="text-purple-400">for</span> (<span class="text-blue-400">int</span> w : weights) {
+        <span class="text-purple-400">if</span> (currentLoad + w &gt; cap) {
+            daysNeeded++;
+            currentLoad = w;
+        } <span class="text-purple-400">else</span> {
+            currentLoad += w;
+        }
+    }
+    <span class="text-purple-400">return</span> daysNeeded &lt;= D;
+}
+
+<span class="text-blue-400">int</span> <span class="text-amber-300">main</span>() {
+    <span class="text-blue-400">int</span> N, D;
+    cin &gt;&gt; N &gt;&gt; D;
+    vector&lt;<span class="text-blue-400">int</span>&gt; weights(N);
+    <span class="text-blue-400">int</span> maxW = <span class="text-orange-400">0</span>, sumW = <span class="text-orange-400">0</span>;
+    <span class="text-purple-400">for</span> (<span class="text-blue-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; N; ++i) {
+        cin &gt;&gt; weights[i];
+        maxW = max(maxW, weights[i]);
+        sumW += weights[i];
+    }
+
+    <span class="text-blue-400">int</span> l = maxW, r = sumW, ans = sumW;
+    <span class="text-purple-400">while</span> (l &lt;= r) {
+        <span class="text-blue-400">int</span> mid = l + (r - l) / <span class="text-orange-400">2</span>;
+        <span class="text-purple-400">if</span> (checkCapacity(weights, D, mid)) {
+            ans = mid;
+            r = mid - <span class="text-orange-400">1</span>; <span class="text-slate-500">// Tìm tải trọng nhỏ hơn</span>
+        } <span class="text-purple-400">else</span> {
+            l = mid + <span class="text-orange-400">1</span>;
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+    <span class="text-purple-400">return</span> <span class="text-orange-400">0</span>;
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- PROBLEM 4: SQRT(X) -->
+        <div
+          class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
+        >
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h4 class="text-lg font-bold text-brand-600 dark:text-brand-400">
+              🔢 Bài toán 4: Căn bậc hai số nguyên (Sqrt(x) Floor)
+            </h4>
+            <span
+              class="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold"
+              >Độ khó: Easy</span
+            >
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Cho một số nguyên không âm <strong>X</strong>. Hãy tính và trả về
+            căn bậc hai của X làm tròn xuống số nguyên gần nhất (<code
+              class="font-mono"
+              >floor(sqrt(x))</code
+            >) mà
+            <strong>không sử dụng bất kỳ hàm số học dựng sẵn nào</strong> như
+            <code class="font-mono">sqrt()</code> hay
+            <code class="font-mono">pow()</code>.
+          </p>
+
+          <div
+            class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono"
+          >
+            <strong>Ràng buộc:</strong> 0 ≤ X ≤ 2³¹ - 1.
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Input mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+8</pre
+              >
+            </div>
+            <div>
+              <span
+                class="text-xs font-bold text-slate-500 uppercase block mb-1"
+                >Output mẫu:</span
+              >
+              <pre
+                class="p-3 rounded-xl bg-slate-900 text-amber-400 font-mono text-xs overflow-x-auto border border-slate-800"
+              >
+2</pre
+              >
+            </div>
+          </div>
+
+          <div
+            class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 space-y-2 text-xs sm:text-sm"
+          >
+            <h5
+              class="font-bold text-indigo-900 dark:text-indigo-200 uppercase flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-lightbulb text-amber-500"></i> Giải thích
+              chi tiết Test ví dụ:
+            </h5>
+            <p class="text-slate-600 dark:text-slate-300">
+              Căn bậc hai thực tế của 8 là ~2.82842...
+            </p>
+            <ul
+              class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1 ml-2"
+            >
+              <li>
+                Ta tìm số k lớn nhất sao cho
+                <code class="font-mono">k * k &lt;= 8</code>.
+              </li>
+              <li>Với k = 2: 2 * 2 = 4 ≤ 8 (Thỏa mãn).</li>
+              <li>Với k = 3: 3 * 3 = 9 > 8 (Vượt quá).</li>
+              <li>Vậy kết quả làm tròn xuống là <strong>2</strong>.</li>
+            </ul>
+          </div>
+
+          <div
+            class="rounded-xl overflow-hidden bg-slate-900 border border-slate-800"
+          >
+            <div
+              class="bg-slate-800/80 px-4 py-2 flex items-center justify-between text-xs text-slate-400"
+            >
+              <span class="font-mono"
+                ><i class="fa-regular fa-file-code text-indigo-400"></i>
+                sqrt_binary_search.cpp</span
+              >
+              <button
+                onclick="copyCode(this)"
+                class="hover:text-white transition-colors flex items-center gap-1"
+              >
+                <i class="fa-regular fa-copy"></i> Sao chép
+              </button>
+            </div>
+            <pre
+              class="p-4 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed"
+            ><code><span class="text-purple-400">#include</span> <span class="text-emerald-300">&lt;iostream&gt;</span>
+<span class="text-purple-400">using namespace</span> std;
+
+<span class="text-blue-400">int</span> <span class="text-amber-300">mySqrt</span>(<span class="text-blue-400">int</span> x) {
+    <span class="text-purple-400">if</span> (x == <span class="text-orange-400">0</span> || x == <span class="text-orange-400">1</span>) <span class="text-purple-400">return</span> x;
+    <span class="text-blue-400">long long</span> l = <span class="text-orange-400">1</span>, r = x, ans = <span class="text-orange-400">0</span>;
+    <span class="text-purple-400">while</span> (l &lt;= r) {
+        <span class="text-blue-400">long long</span> mid = l + (r - l) / <span class="text-orange-400">2</span>;
+        <span class="text-purple-400">if</span> (mid * mid &lt;= x) {
+            ans = mid;
+            l = mid + <span class="text-orange-400">1</span>; <span class="text-slate-500">// Thử tìm giá trị căn lớn hơn</span>
+        } <span class="text-purple-400">else</span> {
+            r = mid - <span class="text-orange-400">1</span>;
+        }
+    }
+    <span class="text-purple-400">return</span> ans;
+}
+
+<span class="text-blue-400">int</span> <span class="text-amber-300">main</span>() {
+    <span class="text-blue-400">int</span> x;
+    if (cin &gt;&gt; x) {
+        cout &lt;&lt; mySqrt(x) &lt;&lt; endl;
+    }
+    <span class="text-purple-400">return</span> <span class="text-orange-400">0</span>;
+}</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- LESSON 6 -->
+      <article
+        class="lesson-card glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-sm hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider"
+            >Bài 6 • Bẫy Thường Gặp & Tối Ưu</span
+          >
+          <span class="text-xs text-slate-400"
+            ><i class="fa-regular fa-clock mr-1"></i>Thời gian đọc: ~6
+            phút</span
+          >
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold">
+          ⚠️ Các Bẫy Thường Gặp & Cách Khắc Phục
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Bug 1 -->
+          <div
+            class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 space-y-2"
+          >
+            <h4
+              class="font-bold text-rose-700 dark:text-rose-400 text-sm flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-triangle-exclamation"></i> 1. Tràn số
+              Integer
+            </h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">
+              Viết
+              <code class="font-mono bg-white dark:bg-slate-800 px-1 rounded"
+                >(l + r) / 2</code
+              >
+              dễ dẫn tới tràn số nếu
+              <code class="font-mono">l + r &gt; 2³¹ - 1</code>.
+            </p>
+            <p
+              class="text-xs font-semibold text-emerald-600 dark:text-emerald-400"
+            >
+              ✅ Giải pháp: <code class="font-mono">l + (r - l) / 2</code>
+            </p>
+          </div>
+
+          <!-- Bug 2 -->
+          <div
+            class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 space-y-2"
+          >
+            <h4
+              class="font-bold text-rose-700 dark:text-rose-400 text-sm flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-arrows-rotate"></i> 2. Vòng lặp vô hạn
+            </h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">
+              Gán
+              <code class="font-mono bg-white dark:bg-slate-800 px-1 rounded"
+                >l = mid</code
+              >
+              hoặc
+              <code class="font-mono bg-white dark:bg-slate-800 px-1 rounded"
+                >r = mid</code
+              >
+              mà không cộng/trừ 1 khi điều kiện dừng chưa khớp.
+            </p>
+            <p
+              class="text-xs font-semibold text-emerald-600 dark:text-emerald-400"
+            >
+              ✅ Giải pháp: Luôn dịch chuyển con trỏ
+              <code class="font-mono">mid ± 1</code>.
+            </p>
+          </div>
+
+          <!-- Bug 3 -->
+          <div
+            class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 space-y-2"
+          >
+            <h4
+              class="font-bold text-rose-700 dark:text-rose-400 text-sm flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-calculator"></i> 3. Tìm kiếm số thực
+            </h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">
+              Với số thực <code class="font-mono">double</code>, không dùng điều
+              kiện <code class="font-mono">l &lt;= r</code>.
+            </p>
+            <p
+              class="text-xs font-semibold text-emerald-600 dark:text-emerald-400"
+            >
+              ✅ Giải pháp: Cho lặp cố định 60-100 lần hoặc kiểm tra
+              <code class="font-mono">r - l &gt; 1e-7</code>.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- LESSON 7 -->
+      <article
+        class="lesson-card glass-card rounded-3xl p-6 sm:p-8 space-y-4 shadow-sm hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider"
+            >Bài 7 • Thư Viện C++ STL</span
+          >
+          <span class="text-xs text-slate-400"
+            ><i class="fa-regular fa-clock mr-1"></i>Thời gian đọc: ~5
+            phút</span
+          >
+        </div>
+        <h3 class="text-xl sm:text-2xl font-bold">
+          🧰 Sử Dụng Hàm Dựng Sẵn Trong C++ STL
+        </h3>
+
+        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+          Trong thực tế thi đấu, bạn nên tận dụng các hàm chuẩn cực kỳ tối ưu
+          sẵn có trong thư viện
+          <code class="font-mono text-brand-600 dark:text-brand-400"
+            >&lt;algorithm&gt;</code
+          >:
+        </p>
+
+        <div
+          class="rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl"
+        >
+          <div
+            class="bg-slate-800/80 px-4 py-2.5 flex items-center justify-between text-xs text-slate-400 border-b border-slate-700"
+          >
+            <span class="font-mono flex items-center gap-2"
+              ><i class="fa-regular fa-file-code text-emerald-400"></i>
+              stl_binary_search.cpp</span
+            >
+          </div>
+          <pre
+            class="p-4 text-xs sm:text-sm font-mono text-slate-200 overflow-x-auto leading-relaxed"
+          ><code>vector&lt;<span class="text-blue-400">int</span>&gt; v = {<span class="text-orange-400">1</span>, <span class="text-orange-400">3</span>, <span class="text-orange-400">5</span>, <span class="text-orange-400">5</span>, <span class="text-orange-400">5</span>, <span class="text-orange-400">8</span>, <span class="text-orange-400">11</span>};
+
+<span class="text-slate-500">// 1. std::binary_search -> Trả về bool (true/false)</span>
+<span class="text-blue-400">bool</span> found = binary_search(v.begin(), v.end(), <span class="text-orange-400">5</span>); <span class="text-slate-500">// true</span>
+
+<span class="text-slate-500">// 2. std::lower_bound -> Con trỏ/Iterator tới vị trí ĐẦU TIÊN &gt;= X</span>
+<span class="text-purple-400">auto</span> it1 = lower_bound(v.begin(), v.end(), <span class="text-orange-400">5</span>);
+<span class="text-blue-400">int</span> index1 = it1 - v.begin(); <span class="text-slate-500">// Trả về vị trí 2</span>
+
+<span class="text-slate-500">// 3. std::upper_bound -> Con trỏ/Iterator tới vị trí ĐẦU TIÊN &gt; X</span>
+<span class="text-purple-400">auto</span> it2 = upper_bound(v.begin(), v.end(), <span class="text-orange-400">5</span>);
+<span class="text-blue-400">int</span> index2 = it2 - v.begin(); <span class="text-slate-500">// Trả về vị trí 5 (giá trị 8)</span>
+
+<span class="text-slate-500">// Đếm số lần xuất hiện của số 5 trong mảng:</span>
+<span class="text-blue-400">int</span> count = upper_bound(v.begin(), v.end(), <span class="text-orange-400">5</span>) - lower_bound(v.begin(), v.end(), <span class="text-orange-400">5</span>); <span class="text-slate-500">// 3 lần</span></code></pre>
+        </div>
+      </article>
+
+      <!-- QUIZ & PRACTICE SECTION -->
+      <article
+        id="quiz"
+        class="glass-card rounded-3xl p-6 sm:p-8 space-y-6 shadow-lg border-2 border-brand-500/30"
+      >
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span
+            class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider"
+            >Luyện Tập Tương Tác</span
+          >
+          <span
+            id="quizProgressText"
+            class="text-xs font-mono font-bold text-brand-600 dark:text-brand-400"
+            >Câu 1 / 10</span
+          >
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              🧠 Thử Thách Trắc Nghiệm Thuật Toán
+            </h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Kiểm tra mức độ hiểu sâu kiến thức với 10 câu hỏi đa dạng có giải
+              thích chi tiết.
+            </p>
+          </div>
+        </div>
+
+        <!-- Quiz Progress Bar -->
+        <div
+          class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden"
+        >
+          <div
+            id="quizProgressBar"
+            class="h-full gradient-bg w-0 transition-all duration-300"
+          ></div>
+        </div>
+
+        <!-- Quiz Card Box -->
+        <div
+          class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-6 shadow-sm"
+        >
+          <h4
+            id="quizQuestion"
+            class="text-base sm:text-lg font-bold leading-relaxed"
+          >
+            Đang tải câu hỏi...
+          </h4>
+
+          <div id="quizOptions" class="grid grid-cols-1 gap-3">
+            <!-- Dynamic Options -->
+          </div>
+
+          <!-- Explanation Banner -->
+          <div
+            id="quizExplanation"
+            class="hidden p-4 rounded-xl text-xs sm:text-sm leading-relaxed"
+          >
+            <!-- Explanation inserted here -->
+          </div>
+        </div>
+
+        <!-- Quiz Footer Controls -->
+        <div class="flex items-center justify-between pt-2">
+          <span class="text-xs text-slate-400"
+            ><i class="fa-solid fa-award mr-1"></i>+10 XP cho mỗi câu đúng</span
+          >
+          <button
+            id="quizNextBtn"
+            onclick="nextQuestion()"
+            class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md transition-all flex items-center gap-2"
+          >
+            Câu tiếp theo <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </article>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md py-8"
+    >
+      <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+        <div
+          class="flex items-center justify-center gap-2 text-xl font-extrabold gradient-text"
+        >
+          Học cùng Huy Lee
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400">
+          Nền tảng học Cấu trúc dữ liệu & Thuật toán trực quan dành cho lập
+          trình viên Việt Nam.
+        </p>
+        <p class="text-xs text-slate-400">
+          © 2026 Binary Search Academy Pro. Built with HTML5, Tailwind CSS &
+          JavaScript.
+        </p>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      // ==========================================
+      // 1. THEME TOGGLE (DARK / LIGHT MODE)
+      // ==========================================
+      const themeToggleBtn = document.getElementById("themeToggle");
+
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      themeToggleBtn.addEventListener("click", () => {
+        if (document.documentElement.classList.contains("dark")) {
+          document.documentElement.classList.remove("dark");
+          localStorage.theme = "light";
+        } else {
+          document.documentElement.classList.add("dark");
+          localStorage.theme = "dark";
+        }
+      });
+
+      // Mobile Menu Toggle
+      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      });
+
+      // ==========================================
+      // 2. SEARCH / FILTER LESSONS
+      // ==========================================
+      document
+        .getElementById("lessonSearch")
+        .addEventListener("input", function (e) {
+          const query = e.target.value.toLowerCase();
+          const lessons = document.querySelectorAll(".lesson-card");
+
+          lessons.forEach((lesson) => {
+            const text = lesson.innerText.toLowerCase();
+            if (text.includes(query)) {
+              lesson.style.display = "block";
+            } else {
+              lesson.style.display = "none";
+            }
+          });
+        });
+
+      // Code Copy Helper
+      function copyCode(btn) {
+        const pre = btn.closest(".rounded-2xl").querySelector("pre");
+        const code = pre.innerText;
+
+        // Execute copy
+        const tempTextArea = document.createElement("textarea");
+        tempTextArea.value = code;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML =
+          '<i class="fa-solid fa-check text-emerald-400"></i> Đã chép!';
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+        }, 2000);
+      }
+
+      // ==========================================
+      // 3. INTERACTIVE SIMULATION LOGIC
+      // ==========================================
+      let simArray = [];
+      let simTarget = 0;
+      let simL = 0;
+      let simR = 0;
+      let simMid = -1;
+      let simFinished = false;
+      let simAutoInterval = null;
+
+      function initSim() {
+        if (simAutoInterval) {
+          clearInterval(simAutoInterval);
+          simAutoInterval = null;
+          document.getElementById("simAutoBtn").innerHTML =
+            '<i class="fa-solid fa-play"></i> Tự động chạy (Auto)';
+        }
+
+        const rawInput = document.getElementById("simArrayInput").value;
+        simTarget =
+          parseInt(document.getElementById("simTargetInput").value) || 0;
+
+        // Parse and sort array
+        simArray = rawInput
+          .split(",")
+          .map((item) => parseInt(item.trim()))
+          .filter((item) => !isNaN(item))
+          .sort((a, b) => a - b);
+
+        if (simArray.length === 0) {
+          simArray = [1, 3, 5, 7, 9];
+        }
+
+        simL = 0;
+        simR = simArray.length - 1;
+        simMid = -1;
+        simFinished = false;
+
+        updateSimStatus(
+          `Đã khởi tạo mảng gồm ${simArray.length} phần tử. Giá trị cần tìm X = ${simTarget}.`,
+        );
+        renderSimVisual();
+      }
+
+      function renderSimVisual() {
+        const visualBox = document.getElementById("simArrayVisual");
+        visualBox.innerHTML = "";
+
+        simArray.forEach((val, idx) => {
+          const itemEl = document.createElement("div");
+          itemEl.className =
+            "array-item flex flex-col items-center justify-center w-12 h-14 sm:w-14 sm:h-16 rounded-xl border-2 font-mono transition-all duration-300 relative";
+
+          let bgClass = "bg-slate-800 border-slate-700 text-slate-200";
+          let tag = "";
+
+          if (simFinished && val === simTarget && idx === simMid) {
+            bgClass =
+              "bg-emerald-500/20 border-emerald-500 text-emerald-300 scale-110 shadow-lg shadow-emerald-500/30";
+            tag = "FOUND";
+          } else if (idx < simL || idx > simR) {
+            bgClass =
+              "bg-slate-950/60 border-slate-800/40 text-slate-600 opacity-40";
+          } else {
+            if (idx === simMid) {
+              bgClass =
+                "bg-amber-500/20 border-amber-500 text-amber-300 scale-105 shadow-md";
+              tag = "MID";
+            } else if (idx === simL && idx === simR) {
+              bgClass = "bg-indigo-500/20 border-indigo-500 text-indigo-300";
+              tag = "L=R";
+            } else if (idx === simL) {
+              bgClass = "bg-blue-500/20 border-blue-500 text-blue-300";
+              tag = "L";
+            } else if (idx === simR) {
+              bgClass = "bg-purple-500/20 border-purple-500 text-purple-300";
+              tag = "R";
+            }
+          }
+
+          itemEl.className += ` ${bgClass}`;
+          itemEl.innerHTML = `
+                    <span class="text-base sm:text-lg font-bold">${val}</span>
+                    <span class="text-[10px] opacity-60">i=${idx}</span>
+                    ${tag ? `<span class="absolute -top-2.5 px-1.5 py-0.2 bg-slate-900 border border-slate-700 rounded text-[9px] font-bold tracking-wider">${tag}</span>` : ""}
+                `;
+
+          visualBox.appendChild(itemEl);
+        });
+      }
+
+      function updateSimStatus(msg) {
+        document.getElementById("simStatusBox").innerText = msg;
+      }
+
+      function nextSimStep() {
+        if (simFinished) return;
+
+        if (simL > simR) {
+          simFinished = true;
+          updateSimStatus(
+            `❌ Kết thúc: Không tìm thấy giá trị X = ${simTarget} trong mảng! (left > right)`,
+          );
+          renderSimVisual();
+          if (simAutoInterval) toggleSimAuto();
+          return;
+        }
+
+        simMid = Math.floor(simL + (simR - simL) / 2);
+        const currentVal = simArray[simMid];
+
+        if (currentVal === simTarget) {
+          simFinished = true;
+          updateSimStatus(
+            `🎉 THÀNH CÔNG! Đã tìm thấy X = ${simTarget} tại vị trí chỉ số index = ${simMid}.`,
+          );
+          renderSimVisual();
+          if (simAutoInterval) toggleSimAuto();
+          return;
+        }
+
+        if (currentVal < simTarget) {
+          updateSimStatus(
+            `Bước [L=${simL}, R=${simR}]: Mid = ${simMid} (Giá trị ${currentVal} < ${simTarget}). Thu hẹp khoảng -> Left = mid + 1 = ${simMid + 1}.`,
+          );
+          simL = simMid + 1;
+        } else {
+          updateSimStatus(
+            `Bước [L=${simL}, R=${simR}]: Mid = ${simMid} (Giá trị ${currentVal} > ${simTarget}). Thu hẹp khoảng -> Right = mid - 1 = ${simMid - 1}.`,
+          );
+          simR = simMid - 1;
+        }
+
+        renderSimVisual();
+      }
+
+      function toggleSimAuto() {
+        const btn = document.getElementById("simAutoBtn");
+        if (simAutoInterval) {
+          clearInterval(simAutoInterval);
+          simAutoInterval = null;
+          btn.innerHTML =
+            '<i class="fa-solid fa-play"></i> Tự động chạy (Auto)';
+          btn.classList.replace("bg-rose-600", "bg-emerald-600");
+          btn.classList.replace("hover:bg-rose-700", "hover:bg-emerald-700");
+        } else {
+          if (simFinished) initSim();
+          const speed =
+            parseInt(document.getElementById("simSpeedSelect").value) || 900;
+          simAutoInterval = setInterval(nextSimStep, speed);
+          btn.innerHTML = '<i class="fa-solid fa-pause"></i> Dừng lại';
+          btn.classList.replace("bg-emerald-600", "bg-rose-600");
+          btn.classList.replace("hover:bg-emerald-700", "hover:bg-rose-700");
+        }
+      }
+
+      // Init on load
+      window.addEventListener("load", initSim);
+
+      // ==========================================
+      // 4. QUIZ SYSTEM (10 QUESTIONS)
+      // ==========================================
+      const quizData = [
+        {
+          q: "Điều kiện bắt buộc để áp dụng Binary Search trên một mảng là gì?",
+          options: [
+            "Mảng có kích thước là số chẵn",
+            "Mảng đã được sắp xếp hoặc có tính đơn điệu",
+            "Mảng không chứa số âm",
+            "Mảng chứa ít nhất 100 phần tử",
+          ],
+          correct: 1,
+          explain:
+            "Binary Search dựa trên nguyên lý chia đôi để loại bỏ một nửa khoảng tìm kiếm, điều này chỉ đúng khi dữ liệu đã có thứ tự.",
+        },
+        {
+          q: "Độ phức tạp thời gian trường hợp xấu nhất của Binary Search là gì?",
+          options: ["O(N)", "O(N log N)", "O(log N)", "O(1)"],
+          correct: 2,
+          explain:
+            "Sau mỗi bước, không gian tìm kiếm giảm đi 1/2. Số bước tối đa là log₂(N).",
+        },
+        {
+          q: "Tại sao công thức 'mid = l + (r - l) / 2' lại an toàn hơn '(l + r) / 2'?",
+          options: [
+            "Chạy nhanh hơn trên CPU 64-bit",
+            "Tránh hiện tượng tràn số nguyên (Integer Overflow) khi l và r rất lớn",
+            "Cho kết quả chính xác hơn với số thực",
+            "Dễ viết code hơn",
+          ],
+          correct: 1,
+          explain:
+            "Nếu l và r gần giới hạn INT_MAX, phép cộng (l + r) sẽ bị vượt quá giới hạn biểu diễn của kiểu dữ liệu gây tràn số.",
+        },
+        {
+          q: "Nếu mảng có N = 1,000,000 phần tử, Binary Search cần tối đa khoảng bao nhiêu bước so sánh?",
+          options: ["1,000 bước", "100 bước", "20 bước", "500,000 bước"],
+          correct: 2,
+          explain:
+            "Vì 2²⁰ ≈ 1,048,576 > 1,000,000 nên chỉ cần tối đa 20 lần chia đôi.",
+        },
+        {
+          q: "Trong C++ STL, hàm 'std::lower_bound' trả về điều gì?",
+          options: [
+            "Trả về giá trị true/false xem phần tử có tồn tại hay không",
+            "Iterator trỏ đến phần tử đầu tiên LỚN HƠN HOẶC BẰNG giá trị tìm kiếm",
+            "Iterator trỏ đến phần tử đầu tiên LỚN HƠN giá trị tìm kiếm",
+            "Vị trí cuối cùng của phần tử trong mảng",
+          ],
+          correct: 1,
+          explain:
+            "lower_bound trả về iterator tới vị trí đầu tiên có giá trị >= X.",
+        },
+        {
+          q: "Hàm 'std::upper_bound' trong C++ STL khác gì so với 'std::lower_bound'?",
+          options: [
+            "upper_bound tìm phần tử > X, còn lower_bound tìm phần tử >= X",
+            "upper_bound tìm phần tử nhỏ nhất",
+            "upper_bound chỉ chạy trên vector giảm dần",
+            "Không có sự khác biệt nào",
+          ],
+          correct: 0,
+          explain:
+            "std::upper_bound trả về iterator tới phần tử đầu tiên nghiêm ngặt LỚN HƠN X (> X).",
+        },
+        {
+          q: "Kỹ thuật 'Binary Search on Answer' được áp dụng khi nào?",
+          options: [
+            "Khi không thể sắp xếp mảng đầu vào",
+            "Khi cần tìm giá trị tối ưu X thỏa mãn một hàm kiểm tra đơn điệu check(X)",
+            "Khi muốn thay thế thuật toán Dijkstra",
+            "Khi làm việc với chuỗi ký tự",
+          ],
+          correct: 1,
+          explain:
+            "BS on Answer áp dụng khi không gian nghiệm có tính đơn điệu (thỏa mãn từ X trở đi hoặc tới X).",
+        },
+        {
+          q: "Trong mảng A = [2, 4, 4, 4, 7, 9], kết quả của upper_bound - lower_bound cho giá trị X = 4 là bao nhiêu?",
+          options: ["1", "2", "3", "4"],
+          correct: 2,
+          explain:
+            "lower_bound(4) trỏ tới index 1. upper_bound(4) trỏ tới index 4 (giá trị 7). Khoảng cách: 4 - 1 = 3 (đúng bằng số lượng số 4).",
+        },
+        {
+          q: "Khi làm Binary Search trên số thực (double), điều kiện dừng vòng lặp tốt nhất là gì?",
+          options: [
+            "while (l <= r)",
+            "Chạy vòng lặp for cố định (ví dụ 60 - 100 lần) hoặc kiểm tra (r - l > 1e-7)",
+            "while (l != r)",
+            "while (mid == target)",
+          ],
+          correct: 1,
+          explain:
+            "Số thực có sai số chính xác dấy phẩy động, việc lặp số lần cố định (60-100 lần) đảm bảo độ chính xác tuyệt đối mà không sợ lặp vô tận.",
+        },
+        {
+          q: "Nếu mảng đã sắp xếp GIẢM DẦN, muốn dùng Binary Search ta phải điều chỉnh ra sao?",
+          options: [
+            "Không thể dùng Binary Search cho mảng giảm dần",
+            "Đổi điều kiện: Nếu A[mid] < X thì tìm sang BÊN TRÁI (r = mid - 1)",
+            "Đảo ngược mảng trước rồi mới tìm",
+            "Cần thêm thư viện đặc biệt",
+          ],
+          correct: 1,
+          explain:
+            "Khi mảng giảm dần, các phần tử nhỏ hơn X nằm ở bên phải, do đó nếu A[mid] < X ta phải thu hẹp về bên trái.",
+        },
+      ];
+
+      let currentQuizIdx = 0;
+      let userScore = 0;
+      let userCorrect = 0;
+      let quizAnswered = false;
+
+      function loadQuestion() {
+        quizAnswered = false;
+        const qData = quizData[currentQuizIdx];
+
+        document.getElementById("quizProgressText").innerText =
+          `Câu ${currentQuizIdx + 1} / ${quizData.length}`;
+        document.getElementById("quizProgressBar").style.width =
+          `${(currentQuizIdx / quizData.length) * 100}%`;
+
+        document.getElementById("quizQuestion").innerText =
+          `${currentQuizIdx + 1}. ${qData.q}`;
+
+        const optionsBox = document.getElementById("quizOptions");
+        optionsBox.innerHTML = "";
+
+        const explanationBox = document.getElementById("quizExplanation");
+        explanationBox.className = "hidden";
+
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "w-full text-left p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:bg-brand-500/10 hover:border-brand-500 transition-all font-medium text-xs sm:text-sm flex items-start gap-3";
+          btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold flex-shrink-0">${String.fromCharCode(65 + idx)}</span>
+                    <span class="pt-0.5">${optText}</span>
+                `;
+          btn.onclick = () => selectQuizOption(idx, btn);
+          optionsBox.appendChild(btn);
+        });
+      }
+
+      function selectQuizOption(selectedIdx, btnElement) {
+        if (quizAnswered) return;
+        quizAnswered = true;
+
+        const qData = quizData[currentQuizIdx];
+        const allBtns = document.getElementById("quizOptions").children;
+        const explanationBox = document.getElementById("quizExplanation");
+
+        if (selectedIdx === qData.correct) {
+          btnElement.classList.replace("bg-slate-50", "bg-emerald-500/20");
+          btnElement.classList.replace(
+            "border-slate-200",
+            "border-emerald-500",
+          );
+          btnElement.classList.add("text-emerald-600", "dark:text-emerald-400");
+          userScore += 10;
+          userCorrect++;
+
+          explanationBox.className =
+            "p-4 rounded-xl text-xs sm:text-sm leading-relaxed bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 block";
+          explanationBox.innerHTML = `<strong> chính xác!</strong> ${qData.explain}`;
+        } else {
+          btnElement.classList.replace("bg-slate-50", "bg-rose-500/20");
+          btnElement.classList.replace("border-slate-200", "border-rose-500");
+          btnElement.classList.add("text-rose-600", "dark:text-rose-400");
+
+          // Highlight correct one
+          allBtns[qData.correct].classList.replace(
+            "bg-slate-50",
+            "bg-emerald-500/20",
+          );
+          allBtns[qData.correct].classList.replace(
+            "border-slate-200",
+            "border-emerald-500",
+          );
+
+          explanationBox.className =
+            "p-4 rounded-xl text-xs sm:text-sm leading-relaxed bg-rose-500/10 border border-rose-500/30 text-rose-700 dark:text-rose-300 block";
+          explanationBox.innerHTML = `<strong> Chưa đúng!</strong> Đáp án đúng là <strong>${String.fromCharCode(65 + qData.correct)}</strong>.<br>${qData.explain}`;
+        }
+
+        // Update Header Stats
+        document.getElementById("statCorrect").innerText =
+          `${userCorrect} / ${quizData.length}`;
+        document.getElementById("statScore").innerText = `${userScore} XP`;
+      }
+
+      function nextQuestion() {
+        if (!quizAnswered && currentQuizIdx < quizData.length) {
+          alert("Vui lòng chọn một đáp án trước khi qua câu tiếp theo!");
+          return;
+        }
+
+        currentQuizIdx++;
+
+        if (currentQuizIdx >= quizData.length) {
+          document.getElementById("quizProgressBar").style.width = `100%`;
+          const quizCard = document.getElementById("quiz");
+          quizCard.innerHTML = `
+                    <div class="text-center py-8 space-y-4">
+                        <div class="w-20 h-20 mx-auto rounded-full gradient-bg flex items-center justify-center text-3xl text-white shadow-xl animate-bounce">
+                            🏆
+                        </div>
+                        <h3 class="text-2xl font-extrabold">Chúc mừng bạn đã hoàn thành Quiz!</h3>
+                        <p class="text-sm text-slate-500">Kết quả thử thách thuật toán Huy Lee Binary Search:</p>
+                        <div class="inline-flex gap-6 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 font-mono">
+                            <div><span class="text-xs text-slate-400 block">Số câu đúng</span><strong class="text-xl text-emerald-500">${userCorrect} / ${quizData.length}</strong></div>
+                            <div><span class="text-xs text-slate-400 block">Tổng điểm</span><strong class="text-xl text-brand-500">${userScore} XP</strong></div>
+                        </div>
+                        <div>
+                            <button onclick="resetQuiz()" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all">
+                                <i class="fa-solid fa-rotate-right mr-2"></i>Làm lại bài kiểm tra
+                            </button>
+                        </div>
+                    </div>
+                `;
+          return;
+        }
+
+        loadQuestion();
+      }
+
+      function resetQuiz() {
+        location.reload();
+      }
+
+      // Init Quiz on Load
+      window.addEventListener("load", loadQuestion);
+    </script>
+  </body>
+</html>
